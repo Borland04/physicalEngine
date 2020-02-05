@@ -52,13 +52,21 @@ public class EContext  {
         return new ContextIterator(this.objects);
     }
 
-    // TODO: implement
     public void removeObject(@NotNull String id) {
+        Optional<EObject> maybeObj = getObject(id);
 
+        if(maybeObj.isEmpty()) {
+            logger.warn("Object with id '{}' does not exists in context. Skip removing", id);
+        }
+        else {
+            removeObject(maybeObj.get());
+        }
     }
 
-    // TODO: implement
-    public void removeObject(@NotNull EObject obj) {}
+    public void removeObject(@NotNull EObject obj) {
+        logger.trace("Trying to delete object: {}", obj);
+        objects.remove(obj);
+    }
 
 }
 
