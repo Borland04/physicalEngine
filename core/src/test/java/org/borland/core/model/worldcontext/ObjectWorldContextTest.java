@@ -1,30 +1,27 @@
-package org.borland.core.model;
+package org.borland.core.model.worldcontext;
 
 import org.borland.core.model.object.EObject;
 import org.borland.core.util.Tuple;
-import org.jetbrains.annotations.NotNull;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class EContextTest {
+public class ObjectWorldContextTest {
 
-    private EContext context;
+    private ObjectWorldContext context;
 
     @BeforeMethod
     public void initContext() {
-        context = new EContext();
+        context = new ObjectWorldContext();
         fillContextWithTestObjects(context);
     }
 
-    private void fillContextWithTestObjects(EContext context) {
+    private void fillContextWithTestObjects(ObjectWorldContext context) {
         EObject obj1 = createObject("id1");
         EObject obj2 = createObject("id2");
         EObject obj3 = createObject("id3");

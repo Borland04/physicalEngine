@@ -1,4 +1,4 @@
-package org.borland.core.model;
+package org.borland.core.model.worldcontext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,9 +10,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 // TODO: what if objects will be changed while iterator works(Passed 'objects' by reference)
-public class EContext  {
+public class ObjectWorldContext {
 
-    private static Logger logger = LogManager.getLogger(EContext.class);
+    private static Logger logger = LogManager.getLogger(ObjectWorldContext.class);
 
     private List<EObject> objects = new LinkedList<>();
 
@@ -49,7 +49,7 @@ public class EContext  {
 
     // TODO: JavaDoc
     public Iterator<Tuple<EObject, List<EObject>>> getObjectsIterator() {
-        return new ContextIterator(this.objects);
+        return new ObjectWorldContextIterator(this.objects);
     }
 
     public void removeObject(@NotNull String id) {
@@ -70,12 +70,12 @@ public class EContext  {
 
 }
 
-class ContextIterator implements Iterator<Tuple<EObject, List<EObject>>> {
+class ObjectWorldContextIterator implements Iterator<Tuple<EObject, List<EObject>>> {
 
     private List<EObject> objects;
     private Iterator<EObject> originalIterator;
 
-    public ContextIterator(List<EObject> objects) {
+    public ObjectWorldContextIterator(List<EObject> objects) {
         this.objects = objects;
         originalIterator = this.objects.iterator();
     }
