@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class EObject {
@@ -50,5 +51,27 @@ public abstract class EObject {
     public void setId(String id) {
         logger.debug("Change id: '{}' -> '{}'", this.id, id);
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EObject eObject = (EObject) o;
+        return id.equals(eObject.id) &&
+                properties.equals(eObject.properties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, properties);
+    }
+
+    @Override
+    public String toString() {
+        return "EObject{" +
+                "id='" + id + '\'' +
+                ", properties=" + properties +
+                '}';
     }
 }
