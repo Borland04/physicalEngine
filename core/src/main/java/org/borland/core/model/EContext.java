@@ -1,5 +1,7 @@
 package org.borland.core.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.borland.core.model.object.EObject;
 import org.borland.core.util.Tuple;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +12,9 @@ import java.util.stream.Collectors;
 // TODO: what if objects will be changed while iterator works(Passed 'objects' by reference)
 public class EContext  {
 
-    private List<EObject> objects = new LinkedList<EObject>();
+    private static Logger logger = LogManager.getLogger(EContext.class);
+
+    private List<EObject> objects = new LinkedList<>();
 
     /**
      *
@@ -18,11 +22,16 @@ public class EContext  {
      */
     // TODO: javaDoc
     public void addObject(@NotNull EObject obj) {
-        if(getObject(obj.getId()).isPresent()) {
+        String objectId = obj.getId();
+        logger.trace("Trying to add object with id '{}' to context", objectId);
+
+        if(getObject(objectId).isPresent()) {
+            logger.warn("Object with id '{}' already exists in context", objectId);
             throw new IllegalArgumentException("Property with the same id already exists");
         }
 
         objects.add(obj);
+        logger.debug("Successfully added object with id '{}' to context", objectId);
     }
 
 
@@ -43,10 +52,12 @@ public class EContext  {
         return new ContextIterator(this.objects);
     }
 
+    // TODO: implement
     public void removeObject(@NotNull String id) {
 
     }
 
+    // TODO: implement
     public void removeObject(@NotNull EObject obj) {}
 
 }
