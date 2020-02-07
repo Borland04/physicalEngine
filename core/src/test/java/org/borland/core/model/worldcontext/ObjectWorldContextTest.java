@@ -34,12 +34,7 @@ public class ObjectWorldContextTest {
     }
 
     private EObject createObject(String id) {
-        return new EObject(id) {
-            @Override
-            public String getTypeLabel() {
-                return "Object";
-            }
-        };
+        return new EObject(id);
     }
 
     @Test
