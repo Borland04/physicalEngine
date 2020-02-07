@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class EObject {
+public class EObject {
 
     private static final Logger logger = LogManager.getLogger(EObject.class);
 
@@ -21,8 +21,6 @@ public abstract class EObject {
         this.id = id;
         logger.trace("Created EObject with id {}", id);
     }
-
-    public abstract String getTypeLabel();
 
     public Optional<EProperty> getProperty(@NotNull String key) {
         logger.trace("Trying to get property with id '{}' from object '{}'", key, id);
