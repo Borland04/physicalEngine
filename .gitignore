@@ -2,4 +2,7 @@
 .idea
 *.iml
 
+# Gradle
+.gradle
+
 **/target/
