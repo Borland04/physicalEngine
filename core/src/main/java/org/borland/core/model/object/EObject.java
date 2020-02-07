@@ -44,6 +44,10 @@ public class EObject {
         logger.debug("Property with id '{}' successfully set for object '{}'", propertyId, id);
     }
 
+    public boolean hasProperty(@NotNull String id) {
+        return properties.stream().anyMatch(prop -> id.equals(prop.getId()));
+    }
+
     public void removeProperty(@NotNull String id) {
         properties.removeIf(prop -> id.equals(prop.getId()));
     }
