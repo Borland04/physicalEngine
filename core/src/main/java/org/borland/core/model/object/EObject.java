@@ -34,12 +34,18 @@ public class EObject {
         logger.trace("Trying to set property with id '{}' to object '{}'", propertyId, id);
 
         if(getProperty(propertyId).isPresent()) {
-            logger.warn("Property of object '{}' with id '{}' already exists", propertyId, id);
-            throw new IllegalArgumentException("Property with the same id already exists");
+            logger.warn("Property of object '{}' with id '{}' already exists." +
+                    "Replace it with new value", propertyId, id);
+
+            removeProperty(propertyId);
         }
 
         properties.add(property);
         logger.debug("Property with id '{}' successfully set for object '{}'", propertyId, id);
+    }
+
+    public void removeProperty(@NotNull String id) {
+        properties.removeIf(prop -> id.equals(prop.getId()));
     }
 
     public String getId() {
