@@ -1,5 +1,8 @@
 package org.borland.core.model.worldcontext;
 
+import org.borland.core.model.behavior.EBehavior;
+import org.jetbrains.annotations.NotNull;
+
 public class WorldContext {
 
     private BehaviorWorldContext behaviorContext;
@@ -17,4 +20,5 @@ public class WorldContext {
     public ObjectWorldContext getObjectContext() {
         return objectContext;
     }
+
 }
