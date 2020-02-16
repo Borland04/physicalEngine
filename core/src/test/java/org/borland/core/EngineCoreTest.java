@@ -16,16 +16,16 @@ import org.testng.annotations.Test;
 
 import java.util.Optional;
 
-public class MainTest {
+public class EngineCoreTest {
 
-    Main main;
+    EngineCore engineCore;
 
     @BeforeClass
     public void initWorld() {
-        main = new Main();
+        engineCore = new EngineCore();
 
-        initObjects(main.getWorldContext().getObjectContext());
-        initBehaviors(main.getWorldContext().getBehaviorContext());
+        initObjects(engineCore.getWorldContext().getObjectContext());
+        initBehaviors(engineCore.getWorldContext().getBehaviorContext());
     }
 
     private void initObjects(ObjectWorldContext ctx) {
@@ -66,7 +66,7 @@ public class MainTest {
 
     @BeforeMethod
     public void resetWorld() {
-        ObjectWorldContext ctx = main.getWorldContext().getObjectContext();
+        ObjectWorldContext ctx = engineCore.getWorldContext().getObjectContext();
 
         Optional<EObject> obj1 = ctx.getObject("body1");
         obj1.ifPresent(o -> o.setProperty(new IntProperty("prop1", "prop 1", 0)));
@@ -78,15 +78,15 @@ public class MainTest {
 
     @Test
     public void tick_shouldApplyBehavior() {
-        main.tick(1);
+        engineCore.tick(1);
 
-        Optional<EProperty> body1Prop = main.getWorldContext().getObjectContext().getObject("body1")
+        Optional<EProperty> body1Prop = engineCore.getWorldContext().getObjectContext().getObject("body1")
                 .flatMap(body -> body.getProperty("prop1"));
 
-        Optional<EProperty> body2Prop = main.getWorldContext().getObjectContext().getObject("body2")
+        Optional<EProperty> body2Prop = engineCore.getWorldContext().getObjectContext().getObject("body2")
                 .flatMap(body -> body.getProperty("prop1"));
 
-        Optional<EProperty> body3Prop = main.getWorldContext().getObjectContext().getObject("body3")
+        Optional<EProperty> body3Prop = engineCore.getWorldContext().getObjectContext().getObject("body3")
                 .flatMap(body -> body.getProperty("prop1"));
 
         Assert.assertTrue(body1Prop.isPresent());

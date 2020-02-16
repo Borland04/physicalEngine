@@ -9,7 +9,7 @@ import org.borland.core.util.Tuple;
 import java.util.Iterator;
 import java.util.List;
 
-public class Main {
+public class EngineCore {
 
     private WorldContext worldContext = new WorldContext();
 
