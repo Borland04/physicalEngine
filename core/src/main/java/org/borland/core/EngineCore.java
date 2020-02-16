@@ -7,7 +7,6 @@ import org.borland.core.model.plugin.BehaviorManager;
 import org.borland.core.model.worldcontext.WorldContext;
 import org.borland.core.util.Tuple;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class EngineCore {
