@@ -14,7 +14,7 @@ public class EngineCore {
     private WorldContext worldContext = new WorldContext();
     private BehaviorManager behaviorManager = new BehaviorManagerImpl(worldContext);
 
-    public void tick(long deltaTime) {
+    public void tick(double deltaTime) {
         var objectsIterator = worldContext.getObjectContext().getObjectsIterator();
         while(objectsIterator.hasNext()) {
             var currentIteration = objectsIterator.next();
