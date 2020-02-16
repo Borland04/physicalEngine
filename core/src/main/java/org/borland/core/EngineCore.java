@@ -22,7 +22,7 @@ public class EngineCore {
         }
     }
 
-    public void handleObject(Tuple<EObject, List<EObject>> objContext, long deltaTime) {
+    public void handleObject(Tuple<EObject, List<EObject>> objContext, double deltaTime) {
         BehaviorContext currentBehaviorContext = new BehaviorContext(objContext.fst, objContext.snd);
 
         List<EBehavior> behaviorList = worldContext.getBehaviorContext().getBehaviorList();
@@ -35,4 +35,7 @@ public class EngineCore {
         return behaviorManager;
     }
 
+    public WorldContext getWorldContext() {
+        return worldContext;
+    }
 }

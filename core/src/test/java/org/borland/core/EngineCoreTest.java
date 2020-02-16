@@ -51,7 +51,7 @@ public class EngineCoreTest {
             }
 
             @Override
-            public void behave(@NotNull BehaviorContext context, long deltaTime) {
+            public void behave(@NotNull BehaviorContext context, double deltaTime) {
                 EObject obj = context.getObject();
                 obj.getProperty("prop1").ifPresent(prop -> {
                     Integer value = prop.getValue(Integer.class);
