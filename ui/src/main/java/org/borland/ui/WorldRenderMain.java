@@ -21,6 +21,7 @@ public class WorldRenderMain extends Game {
         config.setWindowedMode(800, 600);
         config.setMaximized(true);
         new Lwjgl3Application(this, config);
+
     }
 
     @Override

@@ -23,6 +23,7 @@ public class MainScreen implements Screen {
     private CameraInputController cameraController;
 
     private final WorldRenderScreen worldRenderer;
+    private final HUDRenderScreen hudRenderer;
 
 
     public MainScreen(WorldRenderMain parent) {
@@ -32,6 +33,7 @@ public class MainScreen implements Screen {
         initEnvironment();
 
         worldRenderer = new WorldRenderScreen(this);
+        hudRenderer = new HUDRenderScreen(this);
     }
 
     private void initCamera() {
@@ -59,13 +61,16 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        cameraController.update();
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        cameraController.update();
 
         modelBatch.begin(camera);
         worldRenderer.render(delta);
         modelBatch.end();
+
+        hudRenderer.render(delta);
     }
 
     @Override
