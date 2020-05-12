@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Iterator;
 import java.util.List;
 
-public class MainScreen implements Screen {
+public class WorldRenderScreen implements Screen {
     private static final float FOV_Y = 90;
 
     private final Main parent;
@@ -30,7 +30,7 @@ public class MainScreen implements Screen {
     private Environment environment;
     private CameraInputController cameraController;
 
-    public MainScreen(Main parent) {
+    public WorldRenderScreen(Main parent) {
         this.parent = parent;
         modelBatch = new ModelBatch(); // TODO: get from parent
         initCamera();

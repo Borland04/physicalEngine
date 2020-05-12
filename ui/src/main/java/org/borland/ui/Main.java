@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.borland.core.EngineCore;
-import org.borland.ui.screens.MainScreen;
+import org.borland.ui.screens.WorldRenderScreen;
 
 public class Main extends Game {
 
@@ -26,6 +26,6 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        this.setScreen(new MainScreen(this));
+        this.setScreen(new WorldRenderScreen(this));
     }
 }
