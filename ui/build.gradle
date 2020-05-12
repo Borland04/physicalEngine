@@ -18,8 +18,4 @@ dependencies {
     api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
     api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-
-//    compile 'org.lwjgl:lwjgl:3.2.3'
-//    compile 'org.lwjgl.lwjgl:lwjgl_util:2.9.3'
-//    compile 'org.lwjgl:lwjgl-opengl:3.2.3'
 }

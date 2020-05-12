@@ -12,47 +12,19 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import org.borland.core.model.object.EObject;
-import org.borland.core.util.Tuple;
 import org.borland.core.util.Vector3;
-import org.borland.ui.Main;
-import org.jetbrains.annotations.NotNull;
+import org.borland.ui.WorldRenderMain;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class WorldRenderScreen implements Screen {
     private static final float FOV_Y = 90;
 
-    private final Main parent;
-    private PerspectiveCamera camera;
+    private final MainScreen parent;
     private Model model;
-    private ModelBatch modelBatch;
-    private Environment environment;
-    private CameraInputController cameraController;
 
-    public WorldRenderScreen(Main parent) {
+    public WorldRenderScreen(MainScreen parent) {
         this.parent = parent;
-        modelBatch = new ModelBatch(); // TODO: get from parent
-        initCamera();
-        initEnvironment();
-    }
-
-    private void initCamera() {
-        camera = new PerspectiveCamera(FOV_Y, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set(10f, 10f, 10f);
-        camera.lookAt(0, 0, 0);
-        camera.near = 1f;
-        camera.far = 300f;
-        camera.update();
-
-        cameraController = new CameraInputController(camera);
-        Gdx.input.setInputProcessor(cameraController);
-    }
-
-    private void initEnvironment() {
-        environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-        environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
     }
 
     @Override
@@ -62,20 +34,13 @@ public class WorldRenderScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        cameraController.update();
-
-        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
         updateWorld(delta);
 
-        modelBatch.begin(camera);
-        renderWorld(modelBatch);
-        modelBatch.end();
+        renderWorld(parent.getModelBatch());
     }
 
     private void updateWorld(float delta) {
-        parent.core.tick(delta);
+        parent.getCore().tick(delta);
     }
 
     /**
@@ -83,13 +48,13 @@ public class WorldRenderScreen implements Screen {
      * @param modelBatch
      */
     private void renderWorld(ModelBatch modelBatch) {
-        List<EObject> objects = parent.core.getWorldContext().getObjectContext().getObjects();
+        List<EObject> objects = parent.getCore().getWorldContext().getObjectContext().getObjects();
         for(EObject obj: objects) {
             obj.getProperty("POSITION")
                     .ifPresent(posProp -> {
                         Vector3 pos = posProp.getValue(Vector3.class);
                         ModelInstance instance = createBox(pos.getX(), pos.getY(), pos.getZ());
-                        modelBatch.render(instance, environment);
+                        modelBatch.render(instance, parent.getEnvironment());
                     });
         }
     }
@@ -107,9 +72,6 @@ public class WorldRenderScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        camera.viewportWidth = Gdx.graphics.getWidth();
-        camera.viewportHeight = Gdx.graphics.getHeight();
-        camera.update();
     }
 
     @Override
@@ -129,7 +91,6 @@ public class WorldRenderScreen implements Screen {
 
     @Override
     public void dispose() {
-        modelBatch.dispose();
         model.dispose();
     }
 

@@ -1,18 +1,17 @@
 package org.borland.ui;
 
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.borland.core.EngineCore;
-import org.borland.ui.screens.WorldRenderScreen;
+import org.borland.ui.screens.MainScreen;
 
-public class Main extends Game {
+public class WorldRenderMain extends Game {
 
-    public EngineCore core = new EngineCore();
+    private EngineCore core = new EngineCore();
 
     public static void main(String[] args) {
-        Main app = new Main();
+        WorldRenderMain app = new WorldRenderMain();
         app.startApplication();
     }
 
@@ -26,6 +25,10 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        this.setScreen(new WorldRenderScreen(this));
+        this.setScreen(new MainScreen(this));
+    }
+
+    public EngineCore getCore() {
+        return core;
     }
 }

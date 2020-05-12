@@ -3,25 +3,25 @@ import org.borland.core.model.property.EProperty;
 import org.borland.core.model.worldcontext.ObjectWorldContext;
 import org.borland.core.util.Vector3;
 import org.borland.plugin.velocity.VelocityPlugin;
-import org.borland.ui.Main;
+import org.borland.ui.WorldRenderMain;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class VelocityTest {
 
-    private Main app;
+    private WorldRenderMain app;
 
     @BeforeClass
     public void init() {
-        app = new Main();
+        app = new WorldRenderMain();
     }
 
     @Test
     public void startVelocityTest() {
         VelocityPlugin vPlugin = new VelocityPlugin();
-        vPlugin.registerBehavior(app.core.getBehaviorManager());
+        vPlugin.registerBehavior(app.getCore().getBehaviorManager());
 
-        initObjects(app.core.getWorldContext().getObjectContext());
+        initObjects(app.getCore().getWorldContext().getObjectContext());
 
         app.startApplication();
     }
