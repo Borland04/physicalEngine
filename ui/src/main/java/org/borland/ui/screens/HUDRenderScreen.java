@@ -2,6 +2,7 @@ package org.borland.ui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -53,7 +54,7 @@ public class HUDRenderScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        var camera = stage.getCamera();
+        Camera camera = stage.getCamera();
         camera.viewportWidth = Gdx.graphics.getWidth();
         camera.viewportHeight = Gdx.graphics.getHeight();
         camera.update();

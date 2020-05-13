@@ -7,6 +7,7 @@ import org.borland.core.model.plugin.BehaviorManager;
 import org.borland.core.model.worldcontext.WorldContext;
 import org.borland.core.util.Tuple;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class EngineCore {
@@ -15,9 +16,9 @@ public class EngineCore {
     private BehaviorManager behaviorManager = new BehaviorManagerImpl(worldContext);
 
     public void tick(double deltaTime) {
-        var objectsIterator = worldContext.getObjectContext().getObjectsIterator();
+        Iterator<Tuple<EObject, List<EObject>>> objectsIterator = worldContext.getObjectContext().getObjectsIterator();
         while(objectsIterator.hasNext()) {
-            var currentIteration = objectsIterator.next();
+            Tuple<EObject, List<EObject>> currentIteration = objectsIterator.next();
             handleObject(currentIteration, deltaTime);
         }
     }

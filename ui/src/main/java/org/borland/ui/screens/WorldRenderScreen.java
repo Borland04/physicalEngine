@@ -60,7 +60,7 @@ public class WorldRenderScreen implements Screen {
         model = modelBuilder.createBox(5f, 5f, 5f,
                 new Material(ColorAttribute.createDiffuse(Color.ORANGE)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        var result = new ModelInstance(model);
+        ModelInstance result = new ModelInstance(model);
         result.transform.setToTranslation((float)x, (float)y, (float)z);
         return result;
     }

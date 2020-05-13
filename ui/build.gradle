@@ -1,7 +1,7 @@
 apply plugin: "java-library"
 apply plugin: "java"
 
-sourceCompatibility = 13
+sourceCompatibility = 1.8
 
 dependencies {
     compile project(':core')
@@ -17,5 +17,7 @@ dependencies {
     api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
     api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+
+//    api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    compile 'com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.10'
 }
