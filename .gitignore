@@ -5,6 +5,5 @@
 # Gradle
 .gradle
 
-**/target/
-**/build/
-**/out/
+**/build
+out

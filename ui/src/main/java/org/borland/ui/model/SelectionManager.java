@@ -1,12 +1,12 @@
 package org.borland.ui.model;
 
-import com.sun.istack.internal.NotNull;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.borland.ui.util.ArrayCompareUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -43,7 +43,9 @@ public class SelectionManager extends Observable<SelectionManager> {
 
     // TODO: javadoc
     public void setSelectedObjectsInternal(List<String> selectedObjects) {
-        this.clearSelection();
+        // DO NOT use 'clearSelection' method,
+        // because it raise an event with 'cleaned' selection(as a result - selection is going to be lost)
+        this.selectedObjects.clear();
         this.selectedObjects.addAll(selectedObjects);
         logger.debug("Selection was changed. New selection: {}", this.selectedObjects);
 

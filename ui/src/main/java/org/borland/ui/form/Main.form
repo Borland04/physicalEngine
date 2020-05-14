@@ -39,7 +39,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="699db" layout-manager="BorderLayout" hgap="0" vgap="0">
+              <grid id="699db" binding="worldNavigatorPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
@@ -47,12 +47,19 @@
                 <properties/>
                 <border type="line" title="World Navigator"/>
                 <children>
-                  <component id="f52fa" class="org.borland.ui.form.components.WorldNavigator" binding="worldNavigator" custom-create="true">
+                  <scrollpane id="a351">
                     <constraints border-constraint="Center"/>
-                    <properties>
-                      <model/>
-                    </properties>
-                  </component>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="f52fa" class="org.borland.ui.form.components.WorldNavigator" binding="worldNavigator" custom-create="true">
+                        <constraints/>
+                        <properties>
+                          <model/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
                 </children>
               </grid>
               <component id="ede09" class="javax.swing.JButton" binding="button1" default-binding="true">

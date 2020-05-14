@@ -21,6 +21,7 @@ public class Main {
     private JPanel configPanel;
     private WorldNavigator worldNavigator;
     private JButton button1;
+    private JPanel worldNavigatorPanel;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Physical engine");
@@ -33,13 +34,15 @@ public class Main {
         frame.setVisible(true);
     }
 
+    // TODO: hangs sometimes
     public Main() {
         worldState = new WorldState(new EngineCore());
 
         // Should be called AFTER the 'worldState' initialization
         $$$setupUI$$$();
         WorldRenderMain worldRenderer = new WorldRenderMain(worldState.getWorld());
-        worldRenderPanel.add(worldRenderer.getWorldCanvas().getCanvas());
+
+        SwingUtilities.invokeLater(() -> worldRenderPanel.add(worldRenderer.getWorldCanvas().getCanvas()));
     }
 
     public WorldState getWorldState() {
@@ -82,8 +85,8 @@ public class Main {
         configPanel = new JPanel();
         configPanel.setLayout(new GridBagLayout());
         splitPane1.setRightComponent(configPanel);
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new BorderLayout(0, 0));
+        worldNavigatorPanel = new JPanel();
+        worldNavigatorPanel.setLayout(new BorderLayout(0, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -91,11 +94,13 @@ public class Main {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 5, 5, 5);
-        configPanel.add(panel1, gbc);
-        panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "World Navigator", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        configPanel.add(worldNavigatorPanel, gbc);
+        worldNavigatorPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "World Navigator", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        worldNavigatorPanel.add(scrollPane1, BorderLayout.CENTER);
         final DefaultListModel defaultListModel1 = new DefaultListModel();
         worldNavigator.setModel(defaultListModel1);
-        panel1.add(worldNavigator, BorderLayout.CENTER);
+        scrollPane1.setViewportView(worldNavigator);
         button1 = new JButton();
         button1.setText("Button");
         gbc = new GridBagConstraints();
