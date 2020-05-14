@@ -4,14 +4,19 @@ import org.borland.core.EngineCore;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.stream.Collectors;
 
 public class Main {
     public static Main mainInstance;
     private EngineCore world;
 
     private JPanel mainPanel;
-    private JButton button1;
     private JPanel worldRenderPanel;
+    private JPanel configPanel;
+    private JList worldList;
+    private JButton button1;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Physical engine");
@@ -29,6 +34,12 @@ public class Main {
 
         WorldRenderMain worldRenderer = new WorldRenderMain(world);
         worldRenderPanel.add(worldRenderer.getWorldCanvas().getCanvas());
+        button1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                worldList.setListData(world.getWorldContext().getObjectContext().getObjects().stream().map(o -> o.getId()).toArray());
+            }
+        });
     }
 
     public EngineCore getWorld() {
@@ -52,8 +63,13 @@ public class Main {
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
-        worldRenderPanel = new JPanel();
-        worldRenderPanel.setLayout(new BorderLayout(0, 0));
+        final JSplitPane splitPane1 = new JSplitPane();
+        splitPane1.setDividerLocation(400);
+        splitPane1.setDividerSize(10);
+        splitPane1.setFocusable(false);
+        splitPane1.setOneTouchExpandable(true);
+        splitPane1.setOpaque(true);
+        splitPane1.setResizeWeight(1.0);
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -61,14 +77,29 @@ public class Main {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        mainPanel.add(worldRenderPanel, gbc);
+        mainPanel.add(splitPane1, gbc);
+        worldRenderPanel = new JPanel();
+        worldRenderPanel.setLayout(new BorderLayout(5, 5));
+        splitPane1.setLeftComponent(worldRenderPanel);
+        configPanel = new JPanel();
+        configPanel.setLayout(new GridBagLayout());
+        splitPane1.setRightComponent(configPanel);
+        worldList = new JList();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        configPanel.add(worldList, gbc);
         button1 = new JButton();
         button1.setText("Button");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel.add(button1, gbc);
+        configPanel.add(button1, gbc);
     }
 
     /**
@@ -77,4 +108,5 @@ public class Main {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }

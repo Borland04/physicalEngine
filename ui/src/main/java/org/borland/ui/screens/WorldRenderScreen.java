@@ -14,6 +14,7 @@ import org.borland.core.util.Vector3;
 
 import java.util.List;
 
+// TODO: logging
 public class WorldRenderScreen implements Screen {
 
     private final MainScreen parent;

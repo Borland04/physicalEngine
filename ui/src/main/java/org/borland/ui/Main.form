@@ -7,24 +7,60 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="4c893" binding="worldRenderPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <splitpane id="cb01e">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
           <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
-        <properties/>
-        <border type="none"/>
-        <children/>
-      </grid>
-      <component id="73b67" class="javax.swing.JButton" binding="button1" default-binding="true">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
         <properties>
-          <text value="Button"/>
+          <dividerLocation value="400"/>
+          <dividerSize value="10"/>
+          <focusable value="false"/>
+          <oneTouchExpandable value="true"/>
+          <opaque value="true"/>
+          <resizeWeight value="1.0"/>
         </properties>
-      </component>
+        <border type="none"/>
+        <children>
+          <grid id="4c893" binding="worldRenderPanel" layout-manager="BorderLayout" hgap="5" vgap="5">
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="d800f" binding="configPanel" layout-manager="GridBagLayout">
+            <constraints>
+              <splitpane position="right"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="ae360" class="javax.swing.JList" binding="worldList">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="ede09" class="javax.swing.JButton" binding="button1" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <text value="Button"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </splitpane>
     </children>
   </grid>
 </form>
