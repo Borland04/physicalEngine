@@ -3,7 +3,7 @@
 *.iml
 
 # Gradle
-.gradle
+**/.gradle
 
 **/build
-out
+**/out
