@@ -1,5 +1,8 @@
 package org.borland.core.model.worldcontext;
 
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.borland.core.model.object.EObject;
@@ -10,9 +13,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 // TODO: what if objects will be changed while iterator works(Passed 'objects' by reference)
-public class ObjectWorldContext {
+public class ObjectWorldContext extends Observable<ObjectWorldContext> {
 
     private static Logger logger = LogManager.getLogger(ObjectWorldContext.class);
+    private final List<Observer<? super ObjectWorldContext>> observers = new LinkedList<>();
 
     private List<EObject> objects = new LinkedList<>();
 
@@ -32,8 +36,21 @@ public class ObjectWorldContext {
 
         objects.add(obj);
         logger.debug("Successfully added object with id '{}' to context", objectId);
+
+        onChanged();
     }
 
+
+    @Override
+    protected void subscribeActual(@NonNull Observer<? super ObjectWorldContext> observer) {
+        observers.add(observer);
+    }
+
+    private void onChanged() {
+        logger.debug("Object world context was changed. Emit 'onNext' for all observers");
+        observers.stream()
+                .forEach(observer -> observer.onNext(this));
+    }
 
     @NotNull
     public Optional<EObject> getObject(@NotNull String id) {
@@ -66,6 +83,7 @@ public class ObjectWorldContext {
     public void removeObject(@NotNull EObject obj) {
         logger.trace("Trying to delete object: {}", obj);
         objects.remove(obj);
+        onChanged();
     }
 
 }

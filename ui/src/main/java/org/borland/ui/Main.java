@@ -1,12 +1,10 @@
 package org.borland.ui;
 
 import org.borland.core.EngineCore;
+import org.borland.core.model.worldcontext.ObjectWorldContext;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.stream.Collectors;
 
 public class Main {
     public static Main mainInstance;
@@ -15,7 +13,7 @@ public class Main {
     private JPanel mainPanel;
     private JPanel worldRenderPanel;
     private JPanel configPanel;
-    private JList worldList;
+    private JList worldNavigator;
     private JButton button1;
 
     public static void main(String[] args) {
@@ -34,12 +32,20 @@ public class Main {
 
         WorldRenderMain worldRenderer = new WorldRenderMain(world);
         worldRenderPanel.add(worldRenderer.getWorldCanvas().getCanvas());
-        button1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                worldList.setListData(world.getWorldContext().getObjectContext().getObjects().stream().map(o -> o.getId()).toArray());
-            }
-        });
+
+        subscribeOnObjectContext();
+    }
+
+    private void subscribeOnObjectContext() {
+        world.getWorldContext().getObjectContext().subscribe(this::updateWorldNavigator);
+    }
+
+    private void updateWorldNavigator(ObjectWorldContext objectContext) {
+        String[] ids = objectContext.getObjects().stream()
+                .map(object -> object.getId())
+                .toArray(String[]::new);
+
+        worldNavigator.setListData(ids);
     }
 
     public EngineCore getWorld() {
@@ -84,7 +90,7 @@ public class Main {
         configPanel = new JPanel();
         configPanel.setLayout(new GridBagLayout());
         splitPane1.setRightComponent(configPanel);
-        worldList = new JList();
+        worldNavigator = new JList();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -92,7 +98,7 @@ public class Main {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 5, 5, 5);
-        configPanel.add(worldList, gbc);
+        configPanel.add(worldNavigator, gbc);
         button1 = new JButton();
         button1.setText("Button");
         gbc = new GridBagConstraints();

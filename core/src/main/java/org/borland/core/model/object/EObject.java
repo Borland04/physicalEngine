@@ -1,5 +1,8 @@
 package org.borland.core.model.object;
 
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.borland.core.model.property.EProperty;
@@ -10,9 +13,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class EObject {
+public class EObject extends Observable<EObject> {
 
     private static final Logger logger = LogManager.getLogger(EObject.class);
+    private final List<Observer<? super EObject>> observers = new LinkedList<>();
 
     private String id = "";
     private List<EProperty> properties = new LinkedList<>();
@@ -42,6 +46,8 @@ public class EObject {
 
         properties.add(property);
         logger.debug("Property with id '{}' successfully set for object '{}'", propertyId, id);
+
+        onChanged();
     }
 
     public boolean hasProperty(@NotNull String id) {
@@ -49,7 +55,13 @@ public class EObject {
     }
 
     public void removeProperty(@NotNull String id) {
-        properties.removeIf(prop -> id.equals(prop.getId()));
+        boolean hasRequiredProp = properties.stream()
+                .anyMatch(prop -> id.equals(prop.getId()));
+
+        if(hasRequiredProp) {
+            properties.removeIf(prop -> id.equals(prop.getId()));
+            onChanged();
+        }
     }
 
     public String getId() {
@@ -59,6 +71,7 @@ public class EObject {
     public void setId(String id) {
         logger.debug("Change id: '{}' -> '{}'", this.id, id);
         this.id = id;
+        onChanged();
     }
 
     @Override
@@ -81,5 +94,16 @@ public class EObject {
                 "id='" + id + '\'' +
                 ", properties=" + properties +
                 '}';
+    }
+
+    @Override
+    protected void subscribeActual(@NonNull Observer<? super EObject> observer) {
+        observers.add(observer);
+    }
+
+    private void onChanged() {
+        logger.debug("Object '{}' was changed. Emit 'onNext' for all observers", id);
+        observers.stream()
+                .forEach(observer -> observer.onNext(this));
     }
 }
