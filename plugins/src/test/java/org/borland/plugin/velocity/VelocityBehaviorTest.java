@@ -9,6 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +32,7 @@ public class VelocityBehaviorTest {
         obj.setProperty(new EProperty(POSITION_ID, "Position", new Vector3(1, 2, 3)));
         obj.setProperty(new EProperty(VELOCITY_ID, "Velocity", new Vector3(3, 2, 1)));
 
-        BehaviorContext ctx = new BehaviorContext(obj, List.of());
+        BehaviorContext ctx = new BehaviorContext(obj, new LinkedList<>());
         velocityBehavior.behave(ctx, 1);
 
         Optional<EProperty> posMaybe = obj.getProperty(POSITION_ID);
@@ -47,11 +49,11 @@ public class VelocityBehaviorTest {
         EObject obj = new EObject("obj1");
         obj.setProperty(new EProperty(VELOCITY_ID, "Velocity", new Vector3(3, 2, 1)));
 
-        BehaviorContext ctx = new BehaviorContext(obj, List.of());
+        BehaviorContext ctx = new BehaviorContext(obj, new LinkedList<>());
         velocityBehavior.behave(ctx, 1);
 
         Optional<EProperty> posMaybe = obj.getProperty(POSITION_ID);
-        Assert.assertTrue(posMaybe.isEmpty());
+        Assert.assertTrue(!posMaybe.isPresent());
     }
 
     @Test
@@ -59,7 +61,7 @@ public class VelocityBehaviorTest {
         EObject obj = new EObject("obj1");
         obj.setProperty(new EProperty(POSITION_ID, "Position", new Vector3(1, 2, 3)));
 
-        BehaviorContext ctx = new BehaviorContext(obj, List.of());
+        BehaviorContext ctx = new BehaviorContext(obj, new LinkedList<>());
         velocityBehavior.behave(ctx, 1);
 
         Optional<EProperty> posMaybe = obj.getProperty(POSITION_ID);
@@ -77,7 +79,7 @@ public class VelocityBehaviorTest {
         obj.setProperty(new EProperty(POSITION_ID, "Position", new Vector3(1, 2, 3)));
         obj.setProperty(new EProperty(VELOCITY_ID, "Velocity", new Vector3(3, 2, 1)));
 
-        BehaviorContext ctx = new BehaviorContext(obj, List.of());
+        BehaviorContext ctx = new BehaviorContext(obj, new LinkedList<>());
         velocityBehavior.behave(ctx, 0.1);
 
         Optional<EProperty> posMaybe = obj.getProperty(POSITION_ID);

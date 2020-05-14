@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
+import org.borland.ui.util.ArrayCompareUtils;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -20,8 +21,20 @@ public class SelectionManager extends Observable<SelectionManager> {
         onChanged();
     }
 
+    // TODO: javadoc -- if new list is the same, event won't be triggered
     public void setSelectedObjects(List<String> selectedObjects) {
-        // TODO: check if it was changed at all
+        boolean doesNewSelectionTheSame =
+                ArrayCompareUtils.areUnorderedListsEqual(selectedObjects, this.selectedObjects);
+        if(doesNewSelectionTheSame) {
+            // TODO: logging
+            return;
+        }
+
+        setSelectedObjectsInternal(selectedObjects);
+    }
+
+    // TODO: javadoc
+    public void setSelectedObjectsInternal(List<String> selectedObjects) {
         this.clearSelection();
         this.selectedObjects.addAll(selectedObjects);
         onChanged();
@@ -75,6 +88,7 @@ public class SelectionManager extends Observable<SelectionManager> {
     }
 
     private void onChanged() {
+        // TODO: logging
         observers.stream()
                 .forEach(observer -> observer.onNext(this));
     }

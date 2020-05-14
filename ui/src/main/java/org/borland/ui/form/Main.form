@@ -47,7 +47,7 @@
                 <properties/>
                 <border type="line" title="World Navigator"/>
                 <children>
-                  <component id="ae360" class="javax.swing.JList" binding="worldNavigator">
+                  <component id="f52fa" class="org.borland.ui.form.components.WorldNavigator" binding="worldNavigator" custom-create="true">
                     <constraints border-constraint="Center"/>
                     <properties>
                       <model/>
