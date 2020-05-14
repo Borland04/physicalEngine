@@ -4,6 +4,7 @@ import org.borland.core.EngineCore;
 import org.borland.core.model.worldcontext.ObjectWorldContext;
 import org.borland.ui.WorldRenderMain;
 import org.borland.ui.form.components.WorldNavigator;
+import org.borland.ui.model.WorldState;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -11,7 +12,7 @@ import java.awt.*;
 
 public class Main {
     public static Main mainInstance;
-    private EngineCore world;
+    private final WorldState worldState;
 
     private JPanel mainPanel;
     private JPanel worldRenderPanel;
@@ -31,16 +32,16 @@ public class Main {
     }
 
     public Main() {
-        world = new EngineCore();
+        worldState = new WorldState(new EngineCore());
 
-        WorldRenderMain worldRenderer = new WorldRenderMain(world);
+        WorldRenderMain worldRenderer = new WorldRenderMain(worldState.getWorld());
         worldRenderPanel.add(worldRenderer.getWorldCanvas().getCanvas());
 
         subscribeOnObjectContext();
     }
 
     private void subscribeOnObjectContext() {
-        world.getWorldContext().getObjectContext().subscribe(this::updateWorldNavigator);
+        worldState.getWorld().getWorldContext().getObjectContext().subscribe(this::updateWorldNavigator);
     }
 
     private void updateWorldNavigator(ObjectWorldContext objectContext) {
@@ -51,8 +52,12 @@ public class Main {
         SwingUtilities.invokeLater(() -> worldNavigator.setListData(ids));
     }
 
+    public WorldState getWorldState() {
+        return worldState;
+    }
+
     public EngineCore getWorld() {
-        return world;
+        return worldState.getWorld();
     }
 
     {
