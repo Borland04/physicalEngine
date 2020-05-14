@@ -3,8 +3,7 @@ import org.borland.core.model.property.EProperty;
 import org.borland.core.model.worldcontext.ObjectWorldContext;
 import org.borland.core.util.Vector3;
 import org.borland.plugin.velocity.VelocityPlugin;
-import org.borland.ui.Main;
-import org.borland.ui.WorldRenderMain;
+import org.borland.ui.form.Main;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

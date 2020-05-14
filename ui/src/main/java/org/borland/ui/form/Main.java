@@ -1,9 +1,12 @@
-package org.borland.ui;
+package org.borland.ui.form;
 
 import org.borland.core.EngineCore;
 import org.borland.core.model.worldcontext.ObjectWorldContext;
+import org.borland.ui.WorldRenderMain;
+import org.borland.ui.form.components.WorldNavigator;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class Main {
@@ -45,7 +48,7 @@ public class Main {
                 .map(object -> object.getId())
                 .toArray(String[]::new);
 
-        worldNavigator.setListData(ids);
+        SwingUtilities.invokeLater(() -> worldNavigator.setListData(ids));
     }
 
     public EngineCore getWorld() {
@@ -90,7 +93,8 @@ public class Main {
         configPanel = new JPanel();
         configPanel.setLayout(new GridBagLayout());
         splitPane1.setRightComponent(configPanel);
-        worldNavigator = new JList();
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new BorderLayout(0, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -98,7 +102,12 @@ public class Main {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 5, 5, 5);
-        configPanel.add(worldNavigator, gbc);
+        configPanel.add(panel1, gbc);
+        panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "World Navigator", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        worldNavigator = new JList();
+        final DefaultListModel defaultListModel1 = new DefaultListModel();
+        worldNavigator.setModel(defaultListModel1);
+        panel1.add(worldNavigator, BorderLayout.CENTER);
         button1 = new JButton();
         button1.setText("Button");
         gbc = new GridBagConstraints();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.borland.ui.Main">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.borland.ui.form.Main">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -39,15 +39,22 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="ae360" class="javax.swing.JList" binding="worldNavigator">
+              <grid id="699db" layout-manager="BorderLayout" hgap="0" vgap="0">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties/>
-              </component>
+                <border type="line" title="World Navigator"/>
+                <children>
+                  <component id="ae360" class="javax.swing.JList" binding="worldNavigator">
+                    <constraints border-constraint="Center"/>
+                    <properties>
+                      <model/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
               <component id="ede09" class="javax.swing.JButton" binding="button1" default-binding="true">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
