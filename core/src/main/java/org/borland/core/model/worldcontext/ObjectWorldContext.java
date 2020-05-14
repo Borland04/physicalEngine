@@ -55,7 +55,7 @@ public class ObjectWorldContext {
     public void removeObject(@NotNull String id) {
         Optional<EObject> maybeObj = getObject(id);
 
-        if(maybeObj.isEmpty()) {
+        if(!maybeObj.isPresent()) {
             logger.warn("Object with id '{}' does not exists in context. Skip removing", id);
         }
         else {

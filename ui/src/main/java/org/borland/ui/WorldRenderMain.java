@@ -9,15 +9,16 @@ import org.borland.ui.screens.MainScreen;
 
 public class WorldRenderMain extends Game {
 
-    private EngineCore core = new EngineCore();
+    private EngineCore core;
+    private LwjglAWTCanvas worldCanvas;
 
     public static void main(String[] args) {
-        WorldRenderMain app = new WorldRenderMain();
-        app.startApplication();
+        WorldRenderMain app = new WorldRenderMain(new EngineCore());
     }
 
-    public LwjglAWTCanvas startApplication() {
-        return new LwjglAWTCanvas(this);
+    public WorldRenderMain(EngineCore core) {
+        this.core = core;
+        worldCanvas = new LwjglAWTCanvas(this);
     }
 
     @Override
@@ -27,5 +28,9 @@ public class WorldRenderMain extends Game {
 
     public EngineCore getCore() {
         return core;
+    }
+
+    public LwjglAWTCanvas getWorldCanvas() {
+        return worldCanvas;
     }
 }

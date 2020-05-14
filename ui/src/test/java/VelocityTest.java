@@ -3,27 +3,30 @@ import org.borland.core.model.property.EProperty;
 import org.borland.core.model.worldcontext.ObjectWorldContext;
 import org.borland.core.util.Vector3;
 import org.borland.plugin.velocity.VelocityPlugin;
+import org.borland.ui.Main;
 import org.borland.ui.WorldRenderMain;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 public class VelocityTest {
 
-    private WorldRenderMain app;
+    private Main app;
 
     @BeforeClass
     public void init() {
-        app = new WorldRenderMain();
+        Main.main(new String[] {});
+        app = Main.mainInstance;
     }
 
     @Test
-    public void startVelocityTest() {
+    public void startVelocityTest() throws IOException {
         VelocityPlugin vPlugin = new VelocityPlugin();
-        vPlugin.registerBehavior(app.getCore().getBehaviorManager());
+        vPlugin.registerBehavior(app.getWorld().getBehaviorManager());
 
-        initObjects(app.getCore().getWorldContext().getObjectContext());
-
-        app.startApplication();
+        initObjects(app.getWorld().getWorldContext().getObjectContext());
+        System.in.read(); // To not to close the window right now
     }
 
     private void initObjects(ObjectWorldContext objectContext) {
