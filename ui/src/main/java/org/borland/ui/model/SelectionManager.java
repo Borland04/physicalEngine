@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 // TODO: logging
+// TODO: javadoc
 public class SelectionManager extends Observable<SelectionManager> {
     private final List<Observer<? super SelectionManager>> observers = new LinkedList<>();
     private final List<String> selectedObjects = new LinkedList<>();
@@ -20,6 +21,7 @@ public class SelectionManager extends Observable<SelectionManager> {
     }
 
     public void setSelectedObjects(List<String> selectedObjects) {
+        // TODO: check if it was changed at all
         this.clearSelection();
         this.selectedObjects.addAll(selectedObjects);
         onChanged();
@@ -49,10 +51,10 @@ public class SelectionManager extends Observable<SelectionManager> {
 
     public void toggleSelection(@NotNull String selection) {
         if(isSelected(selection)) {
-            addSelection(selection);
+            removeSelection(selection);
         }
         else {
-            removeSelection(selection);
+            addSelection(selection);
         }
     }
 
