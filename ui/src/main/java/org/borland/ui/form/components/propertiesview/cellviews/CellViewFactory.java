@@ -5,7 +5,7 @@ import org.borland.ui.form.components.propertiesview.cellviews.impl.Vector3CellV
 
 public class CellViewFactory {
 
-    public static PropertyView getCellEditor(Object value) {
+    public static PropertyView getCellView(Object value) {
 //        Class<?> clazz = value.getClass();
 //
 //        if(clazz.in)

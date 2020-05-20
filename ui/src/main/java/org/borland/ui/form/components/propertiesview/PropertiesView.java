@@ -53,7 +53,7 @@ public class PropertiesView extends JTable {
         }
 
         Object value = getValueAt(row, column);
-        return CellViewFactory.getCellEditor(value);
+        return CellViewFactory.getCellView(value);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class PropertiesView extends JTable {
         }
 
         Object value = getValueAt(row, column);
-        return CellViewFactory.getCellEditor(value);
+        return CellViewFactory.getCellView(value);
     }
 }
 
@@ -108,7 +108,10 @@ class PropertiesViewModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        // TODO: implement property change
+        List<EProperty> properties = eobject.getProperties();
+        EProperty property = properties.get(rowIndex);
+        property.setValue(aValue);
+
         this.fireTableDataChanged();
     }
 

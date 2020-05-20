@@ -12,11 +12,7 @@ public class Vector3CellView extends PropertyView {
     JTextField field = new JTextField();
     Vector3 value;
 
-    public Vector3CellView(Vector3 initialValue) {
-        this.value = initialValue;
-    }
-
-    public Vector3CellView() {
+    {
         field.addActionListener((ActionEvent e) -> {
             String serializedVector = field.getText();
             Double[] values = Arrays.stream(serializedVector.split(";"))
@@ -28,8 +24,13 @@ public class Vector3CellView extends PropertyView {
                 // TODO: throw error?
             }
 
-            value = new Vector3(values[0], values[1], values[2]);
+            this.value = new Vector3(values[0], values[1], values[2]);
+            this.fireEditingStopped();
         });
+    }
+
+    public Vector3CellView(Vector3 initialValue) {
+        this.value = initialValue;
     }
 
     @Override
