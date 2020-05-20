@@ -45,12 +45,7 @@ public class Main {
         WorldRenderMain worldRenderer = new WorldRenderMain(worldState);
 
         SwingUtilities.invokeLater(() -> worldRenderPanel.add(worldRenderer.getWorldCanvas().getCanvas()));
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                worldState.toggleRunning();
-            }
-        });
+        button1.addActionListener(e -> worldState.toggleRunning());
     }
 
     public WorldState getWorldState() {
