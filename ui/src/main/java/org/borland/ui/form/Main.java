@@ -1,18 +1,14 @@
 package org.borland.ui.form;
 
 import org.borland.core.EngineCore;
-import org.borland.core.model.worldcontext.ObjectWorldContext;
 import org.borland.ui.WorldRenderMain;
+import org.borland.ui.form.components.propertiesview.PropertiesView;
 import org.borland.ui.form.components.WorldNavigator;
 import org.borland.ui.model.WorldState;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ContainerAdapter;
 
 public class Main {
     public static Main mainInstance;
@@ -24,6 +20,7 @@ public class Main {
     private WorldNavigator worldNavigator;
     private JButton button1;
     private JPanel worldNavigatorPanel;
+    private PropertiesView propertiesViewTable;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Physical engine");
@@ -88,29 +85,41 @@ public class Main {
         configPanel = new JPanel();
         configPanel.setLayout(new GridBagLayout());
         splitPane1.setRightComponent(configPanel);
-        worldNavigatorPanel = new JPanel();
-        worldNavigatorPanel.setLayout(new BorderLayout(0, 0));
+        button1 = new JButton();
+        button1.setText("Button");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.weighty = 0.01;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        configPanel.add(button1, gbc);
+        final JSplitPane splitPane2 = new JSplitPane();
+        splitPane2.setOneTouchExpandable(true);
+        splitPane2.setOrientation(0);
+        splitPane2.setResizeWeight(1.0);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        configPanel.add(worldNavigatorPanel, gbc);
+        configPanel.add(splitPane2, gbc);
+        worldNavigatorPanel = new JPanel();
+        worldNavigatorPanel.setLayout(new BorderLayout(0, 0));
+        splitPane2.setLeftComponent(worldNavigatorPanel);
         worldNavigatorPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "World Navigator", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JScrollPane scrollPane1 = new JScrollPane();
         worldNavigatorPanel.add(scrollPane1, BorderLayout.CENTER);
         final DefaultListModel defaultListModel1 = new DefaultListModel();
         worldNavigator.setModel(defaultListModel1);
         scrollPane1.setViewportView(worldNavigator);
-        button1 = new JButton();
-        button1.setText("Button");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        configPanel.add(button1, gbc);
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new BorderLayout(0, 0));
+        splitPane2.setRightComponent(panel1);
+        panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Properties", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        final JScrollPane scrollPane2 = new JScrollPane();
+        panel1.add(scrollPane2, BorderLayout.CENTER);
+        scrollPane2.setViewportView(propertiesViewTable);
     }
 
     /**
@@ -123,5 +132,6 @@ public class Main {
     private void createUIComponents() {
         // World Navigator creation
         worldNavigator = new WorldNavigator(worldState);
+        propertiesViewTable = new PropertiesView(worldState);
     }
 }

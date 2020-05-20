@@ -1,8 +1,8 @@
 package org.borland.core.model.object;
 
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.reactivex.rxjava3.subjects.Subject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.borland.core.model.property.EProperty;
@@ -13,16 +13,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class EObject extends Observable<EObject> {
+public class EObject implements org.borland.core.util.Observable<EObject> {
 
     private static final Logger logger = LogManager.getLogger(EObject.class);
-    private final List<Observer<? super EObject>> observers = new LinkedList<>();
+
+    private final Subject<EObject> subject;
 
     private String id = "";
     private List<EProperty> properties = new LinkedList<>();
 
     public EObject(@NotNull String id) {
         this.id = id;
+        subject = PublishSubject.create();
+
         logger.trace("Created EObject with id {}", id);
     }
 
@@ -44,6 +47,7 @@ public class EObject extends Observable<EObject> {
             removeProperty(propertyId);
         }
 
+        property.subscribe(prop -> onChanged());
         properties.add(property);
         logger.debug("Property with id '{}' successfully set for object '{}'", propertyId, id);
 
@@ -74,6 +78,10 @@ public class EObject extends Observable<EObject> {
         onChanged();
     }
 
+    public List<EProperty> getProperties() {
+        return  properties;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,13 +105,13 @@ public class EObject extends Observable<EObject> {
     }
 
     @Override
-    protected void subscribeActual(@NonNull Observer<? super EObject> observer) {
-        observers.add(observer);
+    public void subscribe(Consumer<EObject> consumer) {
+        subject.subscribe(consumer);
     }
 
     private void onChanged() {
         logger.debug("Object '{}' was changed. Emit 'onNext' for all observers", id);
-        observers.stream()
-                .forEach(observer -> observer.onNext(this));
+        subject.onNext(this);
     }
+
 }

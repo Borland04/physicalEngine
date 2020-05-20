@@ -37,8 +37,8 @@ public class VelocityBehavior implements EBehavior {
 
                         pos.setValue(updatedPosition);
                         return pos;
-                    })
-                    .ifPresent(pos -> obj.setProperty(pos));
+                    });
+//                    .ifPresent(pos -> obj.setProperty(pos));
         });
     }
 

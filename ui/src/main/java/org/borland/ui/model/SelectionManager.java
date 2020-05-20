@@ -1,23 +1,29 @@
 package org.borland.ui.model;
 
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.ObservableEmitter;
+import io.reactivex.rxjava3.functions.Consumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.borland.ui.util.ArrayCompareUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 // TODO: javadoc
-public class SelectionManager extends Observable<SelectionManager> {
+public class SelectionManager implements org.borland.core.util.Observable<SelectionManager> {
     private static Logger logger = LogManager.getLogger(SelectionManager.class);
 
-    private final List<Observer<? super SelectionManager>> observers = new LinkedList<>();
+    private final Observable<SelectionManager> observable;
+//    private final List<Observer<? super SelectionManager>> observers = new LinkedList<>();
+
     private final List<String> selectedObjects = new LinkedList<>();
+    private ObservableEmitter<SelectionManager> selectionChangedEmitter;
+
+    public SelectionManager() {
+        this.observable = Observable.create(emitter -> { this.selectionChangedEmitter = emitter; });
+    }
 
     public void clearSelection() {
         logger.debug("Clear selection");
@@ -99,21 +105,19 @@ public class SelectionManager extends Observable<SelectionManager> {
     }
 
     public List<String> getSelectedObjects() {
-        LinkedList<String> copy = new LinkedList<>();
-        Collections.copy(copy, selectedObjects);
+        LinkedList<String> copy = new LinkedList<>(selectedObjects);
         logger.debug("Selected objects: {}", copy);
         return copy;
     }
 
     @Override
-    protected void subscribeActual(@NonNull Observer<? super SelectionManager> observer) {
+    public void subscribe(Consumer<SelectionManager> observer) {
         logger.debug("Subscribe on SelectionManager");
-        observers.add(observer);
+        observable.subscribe(observer);
     }
 
     private void onChanged() {
         logger.debug("SelectionManager was changed. Notify all observers");
-        observers.stream()
-                .forEach(observer -> observer.onNext(this));
+        selectionChangedEmitter.onNext(this);
     }
 }
