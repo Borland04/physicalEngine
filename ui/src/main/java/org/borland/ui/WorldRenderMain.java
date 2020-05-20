@@ -1,23 +1,23 @@
 package org.borland.ui;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import org.borland.core.EngineCore;
+import org.borland.ui.model.WorldState;
 import org.borland.ui.screens.MainScreen;
 
 public class WorldRenderMain extends Game {
 
-    private EngineCore core;
+    private WorldState worldState;
     private LwjglAWTCanvas worldCanvas;
 
     public static void main(String[] args) {
-        WorldRenderMain app = new WorldRenderMain(new EngineCore());
+        WorldRenderMain app = new WorldRenderMain(new WorldState(new EngineCore()));
+        app.getWorldState().run();
     }
 
-    public WorldRenderMain(EngineCore core) {
-        this.core = core;
+    public WorldRenderMain(WorldState worldState) {
+        this.worldState = worldState;
         worldCanvas = new LwjglAWTCanvas(this);
     }
 
@@ -26,8 +26,8 @@ public class WorldRenderMain extends Game {
         this.setScreen(new MainScreen(this));
     }
 
-    public EngineCore getCore() {
-        return core;
+    public WorldState getWorldState() {
+        return worldState;
     }
 
     public LwjglAWTCanvas getWorldCanvas() {

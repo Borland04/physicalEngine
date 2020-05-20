@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import org.borland.core.model.object.EObject;
 import org.borland.core.util.Vector3;
+import org.borland.ui.model.WorldState;
 
 import java.util.List;
 
@@ -37,7 +38,10 @@ public class WorldRenderScreen implements Screen {
     }
 
     private void updateWorld(float delta) {
-        parent.getCore().tick(delta);
+        WorldState worldState = parent.getWorldState();
+        if(worldState.isRunning()) {
+            worldState.getWorld().tick(delta);
+        }
     }
 
     /**
@@ -45,7 +49,7 @@ public class WorldRenderScreen implements Screen {
      * @param modelBatch
      */
     private void renderWorld(ModelBatch modelBatch) {
-        List<EObject> objects = parent.getCore().getWorldContext().getObjectContext().getObjects();
+        List<EObject> objects = parent.getWorldState().getWorld().getWorldContext().getObjectContext().getObjects();
         for(EObject obj: objects) {
             obj.getProperty("POSITION")
                     .ifPresent(posProp -> {

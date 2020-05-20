@@ -9,6 +9,8 @@ import org.borland.ui.model.WorldState;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ContainerAdapter;
 
@@ -40,9 +42,15 @@ public class Main {
 
         // Should be called AFTER the 'worldState' initialization
         $$$setupUI$$$();
-        WorldRenderMain worldRenderer = new WorldRenderMain(worldState.getWorld());
+        WorldRenderMain worldRenderer = new WorldRenderMain(worldState);
 
         SwingUtilities.invokeLater(() -> worldRenderPanel.add(worldRenderer.getWorldCanvas().getCanvas()));
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                worldState.toggleRunning();
+            }
+        });
     }
 
     public WorldState getWorldState() {

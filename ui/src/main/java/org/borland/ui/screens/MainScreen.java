@@ -5,13 +5,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import org.borland.core.EngineCore;
 import org.borland.ui.WorldRenderMain;
+import org.borland.ui.model.WorldState;
 
 public class MainScreen implements Screen {
     private static final float FOV_Y = 90;
@@ -116,7 +116,7 @@ public class MainScreen implements Screen {
         return cameraController;
     }
 
-    public EngineCore getCore() {
-        return parent.getCore();
+    public WorldState getWorldState() {
+        return parent.getWorldState();
     }
 }
