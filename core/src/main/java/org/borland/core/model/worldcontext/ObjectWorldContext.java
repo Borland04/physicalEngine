@@ -1,37 +1,42 @@
 package org.borland.core.model.worldcontext;
 
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.reactivex.rxjava3.subjects.Subject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.borland.core.model.object.EObject;
+import org.borland.core.util.Observable;
 import org.borland.core.util.Tuple;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 // TODO: what if objects will be changed while iterator works(Passed 'objects' by reference)
-public class ObjectWorldContext extends Observable<ObjectWorldContext> {
+public class ObjectWorldContext implements Observable<ObjectWorldContext> {
 
     private static Logger logger = LogManager.getLogger(ObjectWorldContext.class);
-    private final List<Observer<? super ObjectWorldContext>> observers = new LinkedList<>();
+    private final Subject subject = PublishSubject.create();
 
     private List<EObject> objects = new LinkedList<>();
 
     /**
-     *
-     * @param obj
+     * Add an object into the world
+     * @param obj Object to add
+     * @throws IllegalArgumentException if object with the same ID already exists
      */
-    // TODO: javaDoc
     public void addObject(@NotNull EObject obj) {
         String objectId = obj.getId();
         logger.trace("Trying to add object with id '{}' to context", objectId);
 
         if(getObject(objectId).isPresent()) {
             logger.warn("Object with id '{}' already exists in context", objectId);
-            throw new IllegalArgumentException("Property with the same id already exists");
+            throw new IllegalArgumentException(
+                    String.format("Object with the same id(%s) already exists", objectId));
         }
 
         objects.add(obj);
@@ -42,14 +47,13 @@ public class ObjectWorldContext extends Observable<ObjectWorldContext> {
 
 
     @Override
-    protected void subscribeActual(@NonNull Observer<? super ObjectWorldContext> observer) {
-        observers.add(observer);
+    public void subscribe(Consumer<ObjectWorldContext> consumer) {
+        subject.subscribe(consumer);
     }
 
     private void onChanged() {
         logger.debug("Object world context was changed. Emit 'onNext' for all observers");
-        observers.stream()
-                .forEach(observer -> observer.onNext(this));
+        subject.onNext(this);
     }
 
     @NotNull
