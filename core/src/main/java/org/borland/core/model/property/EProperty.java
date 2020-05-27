@@ -62,6 +62,13 @@ public class EProperty implements org.borland.core.util.Observable<EProperty> {
         onChange();
     }
 
+    /**
+     * Returns the value of property with specified type
+     * @param clazz Class to identify the type of value
+     * @param <T> type of value
+     * @return typed value
+     * @throws ClassCastException if value has type, that cannot be casted to a requested
+     */
     public <T> T getValue(Class<T> clazz) {
         return (T) value;
     }
@@ -70,6 +77,15 @@ public class EProperty implements org.borland.core.util.Observable<EProperty> {
         logger.debug("Change property's value: '{}' -> '{}'", this.value, value);
         this.value = value;
         onChange();
+    }
+
+    @Override
+    public void subscribe(Consumer<EProperty> consumer) {
+        subject.subscribe(consumer);
+    }
+
+    private void onChange() {
+        subject.onNext(this);
     }
 
     @Override
@@ -96,12 +112,4 @@ public class EProperty implements org.borland.core.util.Observable<EProperty> {
                 '}';
     }
 
-    @Override
-    public void subscribe(Consumer<EProperty> consumer) {
-        subject.subscribe(consumer);
-    }
-
-    private void onChange() {
-        subject.onNext(this);
-    }
 }

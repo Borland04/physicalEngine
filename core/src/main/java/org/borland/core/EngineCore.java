@@ -20,7 +20,9 @@ public class EngineCore {
     private BehaviorManager behaviorManager = new BehaviorManagerImpl(worldContext);
 
     public void tick(double deltaTime) {
-        Iterator<Tuple<EObject, List<EObject>>> objectsIterator = worldContext.getObjectContext().getObjectsIterator();
+        Iterator<Tuple<EObject, List<EObject>>> objectsIterator =
+                worldContext.getObjectContext().getObjectsIterator();
+
         while(objectsIterator.hasNext()) {
             Tuple<EObject, List<EObject>> currentIteration = objectsIterator.next();
             handleObject(currentIteration, deltaTime);

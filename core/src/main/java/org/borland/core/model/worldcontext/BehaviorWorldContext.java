@@ -15,13 +15,18 @@ public class BehaviorWorldContext {
 
     public List<EBehavior>  behaviorList = new LinkedList<>();
 
-    // TODO: javaDoc
+    /**
+     * Add behavior to a context
+     * @param behavior behavior to add
+     * @throws IllegalArgumentException when behavior with the same ID already exists
+     */
     public void addBehavior(@NotNull EBehavior behavior) {
         String newBehaviorId = behavior.getId();
         if(getBehavior(newBehaviorId).isPresent()) {
             logger.warn("Trying to add behavior with id '{}'," +
                     "but behavior with the same id already exists", newBehaviorId);
-            throw new IllegalArgumentException(String.format("Behavior with id '%s' already exists", newBehaviorId));
+            throw new IllegalArgumentException(
+                    String.format("Behavior with id '%s' already exists", newBehaviorId));
         }
 
         behaviorList.add(behavior);
