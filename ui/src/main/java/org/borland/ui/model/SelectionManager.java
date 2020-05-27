@@ -3,6 +3,8 @@ package org.borland.ui.model;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.reactivex.rxjava3.subjects.Subject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.borland.ui.util.ArrayCompareUtils;
@@ -15,15 +17,9 @@ import java.util.List;
 public class SelectionManager implements org.borland.core.util.Observable<SelectionManager> {
     private static Logger logger = LogManager.getLogger(SelectionManager.class);
 
-    private final Observable<SelectionManager> observable;
-//    private final List<Observer<? super SelectionManager>> observers = new LinkedList<>();
+    private final Subject<SelectionManager> subject = PublishSubject.create();
 
     private final List<String> selectedObjects = new LinkedList<>();
-    private ObservableEmitter<SelectionManager> selectionChangedEmitter;
-
-    public SelectionManager() {
-        this.observable = Observable.create(emitter -> { this.selectionChangedEmitter = emitter; });
-    }
 
     public void clearSelection() {
         logger.debug("Clear selection");
@@ -113,11 +109,11 @@ public class SelectionManager implements org.borland.core.util.Observable<Select
     @Override
     public void subscribe(Consumer<SelectionManager> observer) {
         logger.debug("Subscribe on SelectionManager");
-        observable.subscribe(observer);
+        subject.subscribe(observer);
     }
 
     private void onChanged() {
         logger.debug("SelectionManager was changed. Notify all observers");
-        selectionChangedEmitter.onNext(this);
+        subject.onNext(this);
     }
 }
