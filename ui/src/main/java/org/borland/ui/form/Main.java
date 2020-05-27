@@ -110,8 +110,6 @@ public class Main {
         worldNavigatorPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "World Navigator", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JScrollPane scrollPane1 = new JScrollPane();
         worldNavigatorPanel.add(scrollPane1, BorderLayout.CENTER);
-        final DefaultListModel defaultListModel1 = new DefaultListModel();
-        worldNavigator.setModel(defaultListModel1);
         scrollPane1.setViewportView(worldNavigator);
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new BorderLayout(0, 0));
