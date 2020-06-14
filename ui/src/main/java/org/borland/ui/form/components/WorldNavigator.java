@@ -8,8 +8,6 @@ import org.borland.ui.model.SelectionManager;
 import org.borland.ui.model.WorldState;
 
 import javax.swing.*;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -30,6 +28,7 @@ public class WorldNavigator extends JList<EObject> {
         super();
         this.worldState = worldState;
         initModels(this.worldState);
+        initCellRenderer();
 
         worldState.getWorld().getWorldContext().getObjectContext().subscribe(objCtx -> this.repaint());
     }
@@ -41,6 +40,11 @@ public class WorldNavigator extends JList<EObject> {
 
         selectionModel = new WorldNavigatorSelectionModel(worldState.getSelectionManager(), dataModel);
         this.setSelectionModel(selectionModel);
+    }
+
+    private void initCellRenderer() {
+        WorldNavigatorCellRenderer cellRenderer = new WorldNavigatorCellRenderer();
+        this.setCellRenderer(cellRenderer);
     }
 }
 
@@ -222,5 +226,29 @@ class WorldNavigatorModel extends AbstractListModel<EObject> {
     public EObject getElementAt(int index) {
         return objectWorldContext.getObjects().get(index);
     }
+}
 
+class WorldNavigatorCellRenderer extends JLabel implements ListCellRenderer<EObject> {
+
+    public WorldNavigatorCellRenderer() {
+        setOpaque(true);
+    }
+
+    @Override
+    public Component getListCellRendererComponent(JList<? extends EObject> list,
+                                                  EObject value,
+                                                  int index,
+                                                  boolean isSelected,
+                                                  boolean cellHasFocus) {
+        if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        } else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
+
+        setText(value.getId());
+        return this;
+    }
 }

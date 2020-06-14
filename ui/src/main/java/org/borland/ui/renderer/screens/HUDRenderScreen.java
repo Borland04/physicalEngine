@@ -1,4 +1,4 @@
-package org.borland.ui.screens;
+package org.borland.ui.renderer.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

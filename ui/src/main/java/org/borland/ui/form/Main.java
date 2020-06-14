@@ -1,7 +1,7 @@
 package org.borland.ui.form;
 
 import org.borland.core.EngineCore;
-import org.borland.ui.WorldRenderMain;
+import org.borland.ui.renderer.WorldRenderMain;
 import org.borland.ui.form.components.propertiesview.PropertiesView;
 import org.borland.ui.form.components.WorldNavigator;
 import org.borland.ui.model.WorldState;
@@ -86,7 +86,7 @@ public class Main {
         configPanel.setLayout(new GridBagLayout());
         splitPane1.setRightComponent(configPanel);
         button1 = new JButton();
-        button1.setText("Button");
+        button1.setText("Run/Pause");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

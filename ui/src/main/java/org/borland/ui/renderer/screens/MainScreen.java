@@ -1,7 +1,8 @@
-package org.borland.ui.screens;
+package org.borland.ui.renderer.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
@@ -9,8 +10,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import org.borland.core.EngineCore;
-import org.borland.ui.WorldRenderMain;
+import org.borland.ui.renderer.WorldRenderMain;
 import org.borland.ui.model.WorldState;
 
 public class MainScreen implements Screen {
@@ -28,9 +28,11 @@ public class MainScreen implements Screen {
 
     public MainScreen(WorldRenderMain parent) {
         this.parent = parent;
-        modelBatch = new ModelBatch(); // TODO: get from parent
+        modelBatch = new ModelBatch();
         initCamera();
         initEnvironment();
+        initBackgroundColor();
+
 
         worldRenderer = new WorldRenderScreen(this);
         hudRenderer = new HUDRenderScreen(this);
@@ -54,6 +56,11 @@ public class MainScreen implements Screen {
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
     }
 
+    private void initBackgroundColor() {
+        Color backgroundColor = Color.WHITE;
+        Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+    }
+
     @Override
     public void show() {
 
@@ -66,11 +73,20 @@ public class MainScreen implements Screen {
 
         cameraController.update();
 
+        updateWorld(delta);
+
         modelBatch.begin(camera);
         worldRenderer.render(delta);
         modelBatch.end();
 
-        hudRenderer.render(delta);
+//        hudRenderer.render(delta);
+    }
+
+    private void updateWorld(float delta) {
+        WorldState worldState = parent.getWorldState();
+        if(worldState.isRunning()) {
+            worldState.getWorld().tick(delta);
+        }
     }
 
     @Override

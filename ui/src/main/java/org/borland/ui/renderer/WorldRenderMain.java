@@ -1,10 +1,10 @@
-package org.borland.ui;
+package org.borland.ui.renderer;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
 import org.borland.core.EngineCore;
 import org.borland.ui.model.WorldState;
-import org.borland.ui.screens.MainScreen;
+import org.borland.ui.renderer.screens.MainScreen;
 
 public class WorldRenderMain extends Game {
 

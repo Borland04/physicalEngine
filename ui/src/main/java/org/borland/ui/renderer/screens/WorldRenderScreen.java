@@ -1,4 +1,4 @@
-package org.borland.ui.screens;
+package org.borland.ui.renderer.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import org.borland.core.model.object.EObject;
 import org.borland.core.util.Vector3;
-import org.borland.ui.model.WorldState;
 
 import java.util.List;
 
@@ -32,37 +31,32 @@ public class WorldRenderScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        updateWorld(delta);
-
         renderWorld(parent.getModelBatch());
     }
 
-    private void updateWorld(float delta) {
-        WorldState worldState = parent.getWorldState();
-        if(worldState.isRunning()) {
-            worldState.getWorld().tick(delta);
-        }
-    }
-
     /**
-     * Should be called after 'modelBatch.begin' and before 'modelBatch.end'
+     * Should be called between 'modelBatch.begin' and 'modelBatch.end'
      * @param modelBatch
      */
     private void renderWorld(ModelBatch modelBatch) {
         List<EObject> objects = parent.getWorldState().getWorld().getWorldContext().getObjectContext().getObjects();
         for(EObject obj: objects) {
-            obj.getProperty("POSITION")
-                    .ifPresent(posProp -> {
-                        Vector3 pos = posProp.getValue(Vector3.class);
-                        ModelInstance instance = createBox(pos.getX(), pos.getY(), pos.getZ());
-                        modelBatch.render(instance, parent.getEnvironment());
-                    });
+            renderObject(obj, modelBatch);
         }
+    }
+
+    private void renderObject(EObject object, ModelBatch modelBatch) {
+        object.getProperty("POSITION")
+                .ifPresent(posProp -> {
+                    Vector3 pos = posProp.getValue(Vector3.class);
+                    ModelInstance instance = createBox(pos.getX(), pos.getY(), pos.getZ());
+                    modelBatch.render(instance, parent.getEnvironment());
+                });
     }
 
     private ModelInstance createBox(double x, double y, double z) {
         ModelBuilder modelBuilder = new ModelBuilder();
-        model = modelBuilder.createBox(5f, 5f, 5f,
+        model = modelBuilder.createSphere(5f, 5f, 5f, 50, 50,
                 new Material(ColorAttribute.createDiffuse(Color.ORANGE)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         ModelInstance result = new ModelInstance(model);

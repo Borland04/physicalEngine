@@ -93,6 +93,7 @@ class PropertiesViewModel extends AbstractTableModel {
         if(eobject == null) {
             return null;
         }
+        // TODO: add an objectId to properties
 
         List<EProperty> properties = eobject.getProperties();
         EProperty property = properties.get(rowIndex);

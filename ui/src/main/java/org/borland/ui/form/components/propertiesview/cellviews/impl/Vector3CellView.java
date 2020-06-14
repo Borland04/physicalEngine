@@ -21,7 +21,9 @@ public class Vector3CellView extends PropertyView {
                     .toArray(Double[]::new);
 
             if(values.length != 3) {
-                // TODO: throw error?
+                // Do nothing, leave value as it was before
+                this.fireEditingCanceled();
+                return;
             }
 
             this.value = new Vector3(values[0], values[1], values[2]);
@@ -40,7 +42,10 @@ public class Vector3CellView extends PropertyView {
 
 
     @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+    public Component getTableCellEditorComponent(JTable table,
+                                                 Object value,
+                                                 boolean isSelected,
+                                                 int row, int column) {
         this.value = (Vector3) value;
         String serializedVector = String.format("%f; %f; %f", this.value.getX(), this.value.getY(), this.value.getZ());
         field.setText(serializedVector);
@@ -48,7 +53,12 @@ public class Vector3CellView extends PropertyView {
     }
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    public Component getTableCellRendererComponent(JTable table,
+                                                   Object value,
+                                                   boolean isSelected,
+                                                   boolean hasFocus,
+                                                   int row,
+                                                   int column) {
         return getTableCellEditorComponent(table, value, isSelected, row, column);
     }
 }
